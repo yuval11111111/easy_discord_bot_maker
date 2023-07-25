@@ -19,12 +19,14 @@ to create/edit the "code" open the request.txt file and type your request using 
 + **remove_role:role_id** will remove the role from the message author if the input string was detected
 **you can only chain up to 3 message + input commands inside each message {}**
 #### how to write message command
-**message {**
-**input:your-trigger-message**
-**output:output-message**
-**reply:reply-message**
-**add_role:role_id**
-**}**
+```
+message {
+input:your-trigger-message,
+output:output-message,
+reply:reply-message,
+add_role:role_id,
+}
+```
 
 **output must come after the input**
 
@@ -32,9 +34,11 @@ to create/edit the "code" open the request.txt file and type your request using 
 + **token {}** base of token command (required only once in the code)
 + **key:bot_token,** the token of the bot you want to use (a string)
 #### how to write token command
-**token {**
-**key:your-bot-token,**
-**}**
+```
+token {
+key:your-bot-token,
+}
+```
 
 ### login command
 + **login {}** the base and the entire login command (requires for login the bot to discord when activate)
@@ -45,10 +49,12 @@ to create/edit the "code" open the request.txt file and type your request using 
 + **channel_id:discord_channel_id,** the channel that you want the welcome messages to be sent in
 + **message:message,** the message you want the bot to send when someone joins the server *(key words: user -> will ping the user that joined, name -> will type the username of the user that joined)*
 #### how to write a welcome command
-**welcome {**
-**channel_id:discord_channel_id,**
-**message:text message,**
-**}**
+```
+welcome {
+channel_id:discord_channel_id,
+message:text message,
+}
+```
 
 ### application command command
 + **command {}** the base command of all application command commands
@@ -72,24 +78,25 @@ to create/edit the "code" open the request.txt file and type your request using 
 + **required:boolean(true/false),** use for choose if that sub command required for running the command or not (required every time)
 **you can chain up to 2 sub commands for an output (as shown in the full example below)**
 #### how to write an application command command
-**command {**
-**bot_id:your-bot-user-id,**
-
-**server_id:the-discord_server_id-of-your-server,**
-**name:string,**
-**description:string,**
-**app_reply:message | 0 1,** *(0 1 means which sub command to take info from starts from 0 according to how you write the command)*
-**string [**
-**name:string_0,**
-**description:string,**
-**required:boolean,**
-**]**
-**member [**
-**name:user_1,**
-**description:string,**
-**required:boolean,**
-**]**
-**}**
+```
+command {
+bot_id:your-bot-user-id,
+server_id:the-discord_server_id-of-your-server,
+name:string,
+description:string,
+app_reply:message | 0 1, (0 1 means which sub command to take info from starts from 0 according to how you write the command)
+string [
+name:string_0,
+description:string,
+required:boolean,
+]
+member [
+name:user_1,
+description:string,
+required:boolean,
+]
+}
+```
 
 # activation
 + open the powershell of the folder where the files at and type:
