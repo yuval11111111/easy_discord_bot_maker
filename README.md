@@ -73,22 +73,22 @@ to create/edit the "code" open the request.txt file and type your request using 
 **you can chain up to 2 sub commands for an output (as shown in the full example below)**
 #### how to write an application command command
 **command {**
-**bot_id:your-bot-user-id,**
-**server_id:the-discord_server_id-of-your-server,**
-**name:string,**
-**description:string,**
-**app_reply:message | 0 1,** *(0 1 means which sub command to take info from starts from 0 according to how you write the command)*
-**string [**
-**name:string_0,**
-**description:string,**
-**required:boolean,**
-**]**
-**member [**
-**name:user_1,**
-**description:string,**
-**required:boolean,**
-**]**
-**}**
+  **bot_id:your-bot-user-id,**
+  **server_id:the-discord_server_id-of-your-server,**
+  **name:string,**
+  **description:string,**
+  **app_reply:message | 0 1,** *(0 1 means which sub command to take info from starts from 0 according to how you write the command)*
+  **string [**
+  **name:string_0,**
+  **description:string,**
+  **required:boolean,**
+  **]**
+  **member [**
+  **name:user_1,**
+  **description:string,**
+  **required:boolean,**
+  **]**
+  **}**
 
 # activation
 + open the powershell of the folder where the files at and type:
