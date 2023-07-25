@@ -17,6 +17,7 @@ to create/edit the "code" open the request.txt file and type your request using 
 + **reply:message,** will reply to the message if its content equals to the input string
 + **add_role:role_id** will add the role to the message author if the input string was detected
 + **remove_role:role_id** will remove the role from the message author if the input string was detected
+
 **you can only chain up to 3 message + input commands inside each message {}**
 #### how to write message command
 ```
@@ -76,6 +77,7 @@ message:text message,
 + **name:sub_command_name,** the name of the sub command and the name the sub command will show at on discord (each name can be used once per command, required every time)
 + **description:sub_command_description,** the description of the sub command and the description the sub command will show at on discord below the sub command name (required every time)
 + **required:boolean(true/false),** use for choose if that sub command required for running the command or not (required every time)
+
 **you can chain up to 2 sub commands for an output (as shown in the full example below)**
 #### how to write an application command command
 ```
