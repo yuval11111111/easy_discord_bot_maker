@@ -454,13 +454,46 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 let value_1 = v.toString().split(`\n`).slice(Number(string_1), Number(string_1) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``).split(` =`).slice(0, 1).toString().replace(/ /g, ``)
                                                 let value_2 = v.toString().split(`\n`).slice(Number(string_2), Number(string_2) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``).split(` =`).slice(0, 1).toString().replace(/ /g, ``)
                                                 let user = (value_1.includes(`member_`) && value_2) ? value_1 : value_2
-                                                user = (!value_1.includes(`member_`) && !value_2.includes(`member_`) || !value_2 && !value_1.includes(`member_`)) ? `client.user` : user
-                                                value_2 = (value_2 == value_1 || value_2 == null || !value_2) ? `` : value_2
-                                                value_1 = (value_2 == value_1 || value_1 == null || !value_1) ? `` : value_1
+                                                user = (!value_1.includes(`member_`) && value_2) ? value_1 : value_2
                                                 let reason = (!value_1.includes(`member_`)) ? value_1 : value_2
-
+                                                reason = (!value_2.includes(`member_`)) ? value_2 : value_1
+                                                value_2 = (value_2 == value_1 || value_2 == null || !value_2 || value_2 == undefined) ? `` : value_2
+                                                value_1 = (value_2 == value_1 || value_1 == null || !value_1 || value_1 == undefined) ? `` : value_1
                                                 const v_place = value.length - value.replace(/=/g, "").length
-                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".ban(${"+`${reason}`+"})\n            }\n      }\n})"
+                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".ban(`${"+`${reason}`+"}`)\n            }\n      }\n})"
+                                                return reply
+                                            }
+                                            function app_kick_alt(string, command_name, vars) {
+                                                var v = []
+                                                const l = n_t.length
+                                                console.log(`n_t = ${l} , ${n_t}`)
+                                                for (var i = 0; i < (l); i++) {
+                                                    let name = n_t.toString().split(`name:`).slice(i + 1, i + 2).toString().split(`,`).slice(0, 1)
+                                                    let type = n_t.toString().split(`type:`).slice(i + 1, i + 2).toString().split(`,`).slice(0, 1)
+                                                    let require = n_t.toString().split(`required:`).slice(i + 1, i + 2).toString().split(`,`).slice(0, 1)
+                                                    let vars = type
+                                                    let vars2 = (vars.includes(`string`)) ? "let string_" + `${count}` + " = interaction.options.getString('" + `${name}` + "', " + `${require}` + ")" : vars
+                                                    let vars3 = (vars.includes(`number`)) ? "let number_" + `${count}` + " = interaction.options.getNumber('" + `${name}` + "'," + `${require}` + ")" : vars2
+                                                    let vars4 = (vars.includes(`member`)) ? "let member_" + `${count}` + " = interaction.options.getMember('" + `${name}` + "'," + `${require}` + ")" : vars3
+                                                    let vars5 = (vars.includes(`role`)) ? "let role_" + `${count}` + " = interaction.options.getRole('" + `${name}` + "'," + `${require}` + ").id" : vars4
+                                                    let vars6 = (vars.includes(`channel`)) ? "let channel_" + `${count}` + " = interaction.options.getChannel('" + `${name}` + "'," + `${require}` + ")" : vars5
+                                                    count = count + 1
+                                                    v.push(`                  ` + vars6 + `\n`)
+                                                }
+                                                let string_1 = string.toString().split(` `).slice(0, 1)
+                                                let string_2 = string.toString().split(` `).slice(1, 2)
+                                                string_2 = (string_2 == string_1 || string_2 == null || !string_2) ? `` : string_2
+                                                let value = v.toString().split(`\n`).slice(Number(string), Number(string) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``)
+                                                let value_1 = v.toString().split(`\n`).slice(Number(string_1), Number(string_1) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``).split(` =`).slice(0, 1).toString().replace(/ /g, ``)
+                                                let value_2 = v.toString().split(`\n`).slice(Number(string_2), Number(string_2) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``).split(` =`).slice(0, 1).toString().replace(/ /g, ``)
+                                                let user = (value_1.includes(`member_`) && value_2) ? value_1 : value_2
+                                                user = (!value_1.includes(`member_`) && value_2) ? value_1 : value_2
+                                                let reason = (!value_1.includes(`member_`)) ? value_1 : value_2
+                                                reason = (!value_2.includes(`member_`)) ? value_2 : value_1
+                                                value_2 = (value_2 == value_1 || value_2 == null || !value_2 || value_2 == undefined) ? `` : value_2
+                                                value_1 = (value_2 == value_1 || value_1 == null || !value_1 || value_1 == undefined) ? `` : value_1
+                                                const v_place = value.length - value.replace(/=/g, "").length
+                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".kick(`${" + `${reason}` + "}`)\n            }\n      }\n})"
                                                 return reply
                                             }
                                             let out1 = (program.toString().split('\n').slice(5, 6).toString().includes(`app_output:`)) ? app_output(program.toString().split('\n').slice(5, 6).toString().split(`app_output:`).slice(1, 2).toString().split(`,`).slice(0, 1), name) : (program.split('\n').slice(5, 6).toString().includes(`app_reply:`)) ? app_reply(program.toString().split('\n').slice(5, 6).toString().split(`app_reply:`).slice(1, 2).toString().split(`,`).slice(0, 1), name) : (program.split('\n').slice(5, 6).toString().includes(`app_add_role:`)) ? app_add_role(program.toString().split('\n').slice(5, 6).toString().split(`app_add_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``), name) : (program.split('\n').slice(5, 6).toString().includes(`app_remove_role:`)) ? app_remove_role(program.toString().split('\n').slice(5, 6).toString().split(`app_remove_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``), name) : false
@@ -471,7 +504,8 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                             let out_alt_5 = (program.split('\n').slice(5, 6).toString().includes(`app_move_voice_chat:`)) ? app_move_voice_channel_alt(program.toString().split('\n').slice(5, 6).toString().split(`app_move_voice_chat:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``), name, variables) : out_alt_4
                                             let out_alt_6 = (program.split('\n').slice(5, 6).toString().includes(`app_timeout:`)) ? app_timeout_alt(program.toString().split('\n').slice(5, 6).toString().split(`app_timeout:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``), name, variables) : out_alt_5
                                             let out_alt_7 = (program.split('\n').slice(5, 6).toString().includes(`app_ban:`)) ? app_ban_alt(program.toString().split('\n').slice(5, 6).toString().split(`app_timeout:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``), name, variables) : out_alt_6
-                                            let out2 = (program.includes('[')) ? out_alt_7 : out1
+                                            let out_alt_8 = (program.split('\n').slice(5, 6).toString().includes(`app_kick:`)) ? app_kick_alt(program.toString().split('\n').slice(5, 6).toString().split(`app_timeout:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``), name, variables) : out_alt_7
+                                            let out2 = (program.includes('[')) ? out_alt_8 : out1
                                             console.log(variables.toString() + `<-vars`)
                                             let sub1 = (program.includes('[')) ? sub_command_vars() : ``
                                             console.log(out1, program)
