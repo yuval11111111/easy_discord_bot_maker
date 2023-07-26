@@ -67,7 +67,8 @@ message:text message,
 + **app_output:message,** the message the bot will send in the channel the application command been used at when used
 + **app_role_add:role_id,** the role the bot will give to *user* when used the command
 + **app_role_remove:role_id,** the role the bot will remove from the *user* when used the command
-+ **app_move_voice_chat:discord_voice_channel_id** the channel the bot will move *user* when used the command
++ **app_move_voice_chat:discord_voice_channel_id&&user** the channel the bot will move *user* when used the command (only works with sub commands)
++ **app_timeout:number&&user** timeout *user* for *time* seconds (only works with sub commands) 
 #### application command sub commands/user input
 + **string []** the base of all string sub commands, input: text output: string
 + **number []** the base of all number sub commands, input: text(numbers) output: number
@@ -116,3 +117,4 @@ node index
 and press enter
 **the bot will be active as long as this window running (i highly recommend to buy a server on the internet or to use a small pc if you got one laying around that isn't in use and look on youtube how to turn that pc to a home server)**
 now your discord bot is up and running, if something isn't working just redo the activation steps and reactivate the bot again
+**__if the bot crashes with error "Missing Permissions" try putting the bot's role higher in the role list__** 
