@@ -78,6 +78,8 @@ message:text message,
 + **app_move_voice_chat:discord_voice_channel_id&&user** the channel the bot will move *user* when used the command (only works with sub commands)
 + **app_timeout:number&&user** timeout *user* for *time* seconds (only works with sub commands) 
 + **app_ban:user&&string** ban *user* from the server (only works with sub commands) 
++ **app_kick:user&&string** kick *user* from the server (only works with sub commands) 
+
 #### application command sub commands/user input
 + **string []** the base of all string sub commands, input: text output: string
 + **number []** the base of all number sub commands, input: text(numbers) output: number
