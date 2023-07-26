@@ -117,5 +117,5 @@ node index
 and press enter
 **the bot will be active as long as this window running (i highly recommend to buy a server on the internet or to use a small pc if you got one laying around that isn't in use and look on youtube how to turn that pc to a home server)**
 now your discord bot is up and running, if something isn't working just redo the activation steps and reactivate the bot again
-
+# common problems
 **__if the bot crashes with error "Missing Permissions" try putting the bot's role higher in the role list__** 
