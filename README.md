@@ -160,4 +160,10 @@ and press enter
 now your discord bot is up and running, if something isn't working just redo the activation steps and reactivate the bot again
 
 # common problems
-+ **__if the bot crashes with error "Missing Permissions" try putting the bot's role higher in the role list__** 
++ **__If the bot crashes with error "Missing Permissions" try putting the bot's role higher in the role list__** 
++ **If your bot crash while trying to make an action that involving a user that isn't a member of the server if you can change it to a user that's a member of the server. Discord bots aren't allowed to interact with users outside your guild (the server that the action came from)**
+
+# common questions
+**q: How do I even get those ids**
+
+**a:Go to your discord setting and in Advance turn on Developer Mode. After turning on developer mode right click on the thing you want its id (a channel, a server, a user, etc...) and click copy id (the last option)**
