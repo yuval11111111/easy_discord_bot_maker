@@ -16,20 +16,28 @@ to create/edit the "code" open the request.txt file and type your request using 
 
 ### message commands
 + **message {}** base of all message commands
++ **action []** the base of all actions
 + **input:message,** requires to choose the string will activate this message command
 + **output:message,** will send a normal message when the input string was detected
 + **reply:message,** will reply to the message if its content equals to the input string
 + **add_role:role_id** will add the role to the message author if the input string was detected
 + **remove_role:role_id** will remove the role from the message author if the input string was detected
-**you can only chain up to 3 message + input commands inside each message {}**
+
+**you can put only one action per action []**
 
 #### how to write message command
 ```
 message {
 input:your-trigger-message,
-output:output-message,
-reply:reply-message,
-add_role:role_id,
+action [
+output:output-message
+]
+action [
+reply:reply-message
+]
+action [
+add_role:role_id
+]
 }
 ```
 
