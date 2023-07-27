@@ -112,6 +112,33 @@ required:boolean,
 }
 ```
 
+### message reaction command
++ **reaction {}** the base of all reaction commands
++ **emote_id:discord_emote_id** the id of the trigger emote
++ **channel_id:discord_channel_id** the id of the channel the emote will trigger in
++ **action []** the base of all the actions
+
+#### message reaction command actions
++ **dm:string** send a DM to *user* after reacting with the trigger reaction
++ **add_role:role_id** the role the bot will give to *user* after reacting with the trigger reaction
++ **remove_role:role_id** the role the bot will remove from *user* after reacting with the trigger reaction
+
+**can use one action per "action []"**
+
+#### how to write a message reaction command
+```
+reaction {
+channel_id:123,
+emote_id:✅,
+action [
+dm:test,
+]
+action [
+add_role:123,
+]
+}
+```
+
 # activation
 + open the powershell of the folder where the files at and type:
 ```bash
