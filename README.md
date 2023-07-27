@@ -114,7 +114,7 @@ required:boolean,
 
 ### message reaction command
 + **reaction {}** the base of all reaction commands
-+ **emote_id:discord_emote_id** the id of the trigger emote
++ **emote_id:discord_emote_id** the id of the trigger emote (if its a standard universal emoji the id is the emoji itself)
 + **channel_id:discord_channel_id** the id of the channel the emote will trigger in
 + **action []** the base of all the actions
 
