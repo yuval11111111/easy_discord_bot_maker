@@ -145,6 +145,7 @@ add_role:123,
 node index
 ```
 and press enter
+
 **__if the command isn't working go to https://nodejs.org/en and install the TLS version and try again after finishing the installation process__**
 + after that the application will read the request.txt file and will create your request inside the product folder
 + after the powershell window stopped typing text you can safely close the powershell window and go into the product folder
