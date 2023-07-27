@@ -74,7 +74,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                 console.log(env)
                                 if (env == `` || !env) {
                                     let token = program.split(`key:`).slice(1, 2).toString().split(`,`).slice(0, 1)
-                                    fs.writeFile(`./product/token.json`,``, function (err) {
+                                    fs.writeFile(`./product/token.json`, ``, function (err) {
                                         if (err) throw err;
                                     })
                                     fs.appendFile('./product/token.json', `{\n"token": "${token}" \n}`, function (err) {
@@ -329,6 +329,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".roles.remove(`" + `${out}` + "`)\n            }\n      }\n})"
                                                 return reply
                                             }
+
                                             function app_move_voice_channel_alt(string, command_name, vars) {
                                                 var v = []
                                                 const l = n_t.length
@@ -357,12 +358,13 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 value_2 = (value_2 == value_1 || value_2 == null || !value_2) ? `` : "${" + value_2 + "}"
                                                 value_1 = (value_2 == value_1 || value_1 == null || !value_1) ? `` : "${" + value_1 + "}"
                                                 let out = (!value_1.includes(`member_`)) ? value_1 : value_2
-                                                let channel = (value_1.includes(`channel_`) && value_2) ? value_1  : value_2 
-                                                channel = (!value_1.includes(`channel_`)) ? value_2  : (!value_2.includes(`channel_`)) ? value_1  : out
+                                                let channel = (value_1.includes(`channel_`) && value_2) ? value_1 : value_2
+                                                channel = (!value_1.includes(`channel_`)) ? value_2 : (!value_2.includes(`channel_`)) ? value_1 : out
                                                 const v_place = value.length - value.replace(/=/g, "").length
                                                 const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".voice.setChannel(`" + `${channel}` + "`)\n            }\n      }\n})"
                                                 return reply
                                             }
+
                                             function app_timeout_alt(string, command_name, vars) {
                                                 var v = []
                                                 const l = n_t.length
@@ -389,13 +391,14 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 let user = (value_1.includes(`member_`) && value_2) ? value_1 : value_2
                                                 user = (!value_1.includes(`member_`) && !value_2.includes(`member_`) || !value_2 && !value_1.includes(`member_`)) ? `interaction.member` : user
                                                 value_2 = (value_2 == value_1 || value_2 == null || !value_2) ? `` : value_2
-                                                value_1 = (value_2 == value_1 || value_1 == null || !value_1) ? `` : value_1  
+                                                value_1 = (value_2 == value_1 || value_1 == null || !value_1) ? `` : value_1
                                                 let time = (!value_1.includes(`member_`)) ? value_1 : value_2
 
                                                 const v_place = value.length - value.replace(/=/g, "").length
                                                 const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".timeout(Number(" + time + ".toString()" + ")*1000)\n            }\n      }\n})"
                                                 return reply
                                             }
+
                                             function app_move_voice_channel_alt(string, command_name, vars) {
                                                 var v = []
                                                 const l = n_t.length
@@ -424,12 +427,13 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 value_2 = (value_2 == value_1 || value_2 == null || !value_2) ? `` : "${" + value_2 + "}"
                                                 value_1 = (value_2 == value_1 || value_1 == null || !value_1) ? `` : "${" + value_1 + "}"
                                                 let out = (!value_1.includes(`member_`)) ? value_1 : value_2
-                                                let channel = (value_1.includes(`channel_`) && value_2) ? value_1  : value_2 
-                                                channel = (!value_1.includes(`channel_`)) ? value_2  : (!value_2.includes(`channel_`)) ? value_1  : out
+                                                let channel = (value_1.includes(`channel_`) && value_2) ? value_1 : value_2
+                                                channel = (!value_1.includes(`channel_`)) ? value_2 : (!value_2.includes(`channel_`)) ? value_1 : out
                                                 const v_place = value.length - value.replace(/=/g, "").length
                                                 const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".voice.setChannel(`" + `${channel}` + "`)\n            }\n      }\n})"
                                                 return reply
                                             }
+
                                             function app_ban_alt(string, command_name, vars) {
                                                 var v = []
                                                 const l = n_t.length
@@ -441,7 +445,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                     let vars = type
                                                     let vars2 = (vars.includes(`string`)) ? "let string_" + `${count}` + " = interaction.options.getString('" + `${name}` + "', " + `${require}` + ")" : vars
                                                     let vars3 = (vars.includes(`number`)) ? "let number_" + `${count}` + " = interaction.options.getNumber('" + `${name}` + "'," + `${require}` + ")" : vars2
-                                                    let vars4 = (vars.includes(`member`)) ? "let member_" + `${count}` + " = interaction.options.getMember('" + `${name}` + "'," + `${require}` + ")": vars3
+                                                    let vars4 = (vars.includes(`member`)) ? "let member_" + `${count}` + " = interaction.options.getMember('" + `${name}` + "'," + `${require}` + ")" : vars3
                                                     let vars5 = (vars.includes(`role`)) ? "let role_" + `${count}` + " = interaction.options.getRole('" + `${name}` + "'," + `${require}` + ").id" : vars4
                                                     let vars6 = (vars.includes(`channel`)) ? "let channel_" + `${count}` + " = interaction.options.getChannel('" + `${name}` + "'," + `${require}` + ")" : vars5
                                                     count = count + 1
@@ -460,9 +464,10 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 value_2 = (value_2 == value_1 || value_2 == null || !value_2 || value_2 == undefined) ? `` : value_2
                                                 value_1 = (value_2 == value_1 || value_1 == null || !value_1 || value_1 == undefined) ? `` : value_1
                                                 const v_place = value.length - value.replace(/=/g, "").length
-                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".ban(`${"+`${reason}`+"}`)\n            }\n      }\n})"
+                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".ban(`${" + `${reason}` + "}`)\n            }\n      }\n})"
                                                 return reply
                                             }
+
                                             function app_kick_alt(string, command_name, vars) {
                                                 var v = []
                                                 const l = n_t.length
@@ -526,11 +531,49 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                         }
                         command()
                     }
+                    if (program.includes(`reaction {`)) {
+                        function reaction_message() {
+                            setTimeout(() => {
+                                let emote_name = program.split(`emote_id:`).slice(1, 2).toString().split(`,`).slice(0, 1)
+                                let channel_id = program.split(`channel_id:`).slice(1, 2).toString().split(`,`).slice(0, 1)
+                                const l = program.length - program.replace(/[[]/g, ``).length
+                                var v = []
+                                function actions() {
+                                    for (var i = 0; i < l; i++) {
+                                        let unit = program.split(`]`).slice(i, i + 1).toString()
+                                        let type = unit.split(` [`).slice(0, 1).toString()
+                                        unit = unit.split(type).slice(1, 2).toString()
+                                        let dm = unit.split(`dm:`).slice(1, 2).toString().split(`,`).slice(0, 1)
+                                        let add_role = unit.split(`add_role:`).slice(1, 2).toString().split(`,`).slice(0, 1)
+                                        let remove_role = unit.split(`remove_role:`).slice(1, 2).toString().split(`,`).slice(0, 1)
+                                        let action = (unit.includes(`dm`)) ? "user.send('"+`${dm}`+"').catch(console.error())" : ``
+                                        let action2 = (unit.includes(`add_role`)) ? `member.roles.add('${add_role}').catch(console.error())` : action
+                                        let action3 = (unit.includes(`remove_role`)) ? `member.roles.remove('${remove_role}').catch(console.error())` : action2
+                                        v.push(action3)
+                                    }
+                                }
+                                let sub1 = (program.includes('[')) ? actions() : ``
+                                setTimeout(() => {
+                                    function action(channel_id, emote_id, action) {
+                                        const string = `client.on("messageReactionAdd", (reaction, user) => { // When a reaction is added\n            if (user.bot) return; // If the user who reacted is a bot, return\n            if (reaction.emoji.id !== "${emote_id.toString().replace(/\n/g,``)}") return;\n            if (reaction.message.channel.id == "${channel_id}") {\n                  const {guild} = reaction.message //store the guild of the reaction in variable\n                  const member = guild.members.cache.find(member => member.id === user.id); //find the member who reacted\n                  ${action}\n      }\n})`
+                                        return string
+                                    }
+                                    fs.readFile("./product/index.js", "utf8", (err, txt2) => {
+                                        let act = v.join(`}{`).toString().replace(/}{/g, `\n                  `)
+                                        fs.writeFile('./product/index.js', txt2 + `\n` + action(channel_id, emote_name, act), function (err) {
+                                            if (err) throw err;
+                                        })
+                                    })
+                                },1)
+                            }, 7)
+                        }
+                        reaction_message()
+                    }
                 }
                 setTimeout(() => {
                     part = part + 1
                 }, Math.round((0.0714286 * Math.pow(L.length, 2) - 1.3 * L.length + 7.85714) + 1.7434))
-            }, 2 * L.length - 3 + 2)
+            }, 2 * L.length - 3 - 1)
             imports()
         }
         run()
@@ -538,7 +581,9 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
 })
 
 /*
-*commands*
-index + txt -> values
-values + bot -> code + files + folders
+reaction
+actions:
+dm
+add role
+remove role
 */
