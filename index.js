@@ -17,7 +17,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
 
 
     fs.readFile("./request.txt", "utf8", (err, txt2) => {
-        let L = txt2.toString().replace(/ /g, ``).replace(/\n/g, ``).replace(/[a-z]/g, ``).replace(/[A-Z]/g, ``).replace(/[?]/g, ``).replace(/[0-9]/g, ``).replace(/}/g, `*`).replace(/{/g, ``).replace(/ /g, ``).replace(/\n/g, ``).replace(/\r/g, ``).replace(/,/g, ``).replace(/-/g, ``).replace(/_/g, ``).replace(/:/g, ``).toString()
+        let L = txt2.toString().replace(/ /g, ``).replace(/\n/g, ``).replace(/[a-z]/g, ``).replace(/[A-Z]/g, ``).replace(/[?]/g, ``).replace(/[0-9]/g, ``).replace(/}/g, `*`).replace(/{/g, ``).replace(/ /g, ``).replace(/\n/g, ``).replace(/\r/g, ``).replace(/,/g, ``).replace(/-/g, ``).replace(/_/g, ``).replace(/:/g, ``).replace(/[[]/g, ``).replace(/[]]/g, ``).toString()
         console.log(L)
 
         var part = 0
@@ -32,31 +32,31 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                     console.log(program)
                     if (program.includes(`message {`)) {
                         let input = program.split(`input:`).slice(1, 2).toString().split(`,`).slice(0, 1)
+                        var v = []
 
-                        function output(messages) {
-                            return `message.channel.send('${messages}').catch(console.error)`
+                        function actions() {
+                            const l = program.length - program.replace(/[[]/g, ``).length
+                            for (var i = 0; i < l; i++) {
+                                let unit = program.split(`]`).slice(i, i + 1).toString()
+                                let type = unit.split(` [`).slice(0, 1).toString()
+                                unit = unit.split(type).slice(1, 2).toString()
+                                let reply = unit.split(`reply:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                let add_role = unit.split(`add_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g,``)
+                                let remove_role = unit.split(`remove_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                let output = unit.split(`output:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g,``)
+                                let action = (unit.includes(`reply`)) ? "message.reply('" + `${reply}` + "').catch(console.error())" : ``
+                                let action2 = (unit.includes(`add_role`)) ? `message.member.roles.add('${add_role}').catch(console.error())` : action
+                                let action3 = (unit.includes(`remove_role`)) ? `message.member.roles.add('${remove_role}').catch(console.error())` : action2
+                                let action4 = (unit.includes(`output`)) ? `message.channel.send('${output}').catch(console.error())` : action3
+                                v.push(action4)
+                            }
                         }
-
-                        function reply(messages) {
-                            return `message.reply('${messages}').catch(console.error)`
-                        }
-
-                        function add_role(id) {
-                            return `message.member.roles.add('${id}').catch(console.error)`
-                        }
-
-                        function remove_role(id) {
-                            return `message.member.roles.remove('${id}').catch(console.error)`
-                        }
-                        let out1 = (program.toString().split('\n').slice(3, 4).toString().includes(`output:`)) ? output(program.toString().split('\n').slice(3, 4).toString().split(`output:`).slice(1, 2).toString().split(`,`).slice(0, 1)) : (program.split('\n').slice(3, 4).toString().includes(`reply:`)) ? reply(program.toString().split('\n').slice(3, 4).toString().split(`reply:`).slice(1, 2).toString().split(`,`).slice(0, 1)) : (program.split('\n').slice(3, 4).toString().includes(`add_role:`)) ? add_role(program.toString().split('\n').slice(3, 4).toString().split(`add_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)) : (program.split('\n').slice(3, 4).toString().includes(`remove_role:`)) ? remove_role(program.toString().split('\n').slice(3, 4).toString().split(`remove_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)) : false
-                        let out2 = (program.toString().split('\n').slice(4, 5).toString().includes(`output:`)) ? output(program.toString().split('\n').slice(4, 5).toString().split(`output:`).slice(1, 2).toString().split(`,`).slice(0, 1)) : (program.split('\n').slice(4, 5).toString().includes(`reply:`)) ? reply(program.split('\n').slice(4, 5).toString().split(`reply:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString()) : (program.split('\n').slice(4, 5).toString().includes(`add_role:`)) ? add_role(program.toString().split('\n').slice(4, 5).toString().split(`add_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)) : (program.split('\n').slice(4, 5).toString().includes(`remove_role:`)) ? remove_role(program.toString().split('\n').slice(4, 5).toString().split(`remove_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)) : false
-                        out2 = (program.split('\n').slice(4, 5).toString().includes(`output:`)) ? `\n            ` + out2 : (program.toString().split('\n').slice(4, 5).toString().split(`reply:`).toString().split(`,`).slice(1).toString()) ? `\n            ` + out2 : (program.toString().split('\n').slice(4, 5).toString().split(`add_role:`).toString().split(`,`).slice(1).toString()) ? `\n            ` + out2 : (program.toString().split('\n').slice(4, 5).toString().split(`remove_role:`).toString().split(`,`).slice(1).toString()) ? `\n            ` + out2 : ``
-                        let out3 = (program.toString().split('\n').slice(5, 6).toString().includes(`output:`)) ? output(program.toString().split('\n').slice(5, 6).toString().split(`output:`).slice(1, 2).toString().split(`,`).slice(0, 1)) : (program.split('\n').slice(5, 6).toString().includes(`reply:`)) ? reply(program.split('\n').slice(5, 6).toString().split(`reply:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString()) : (program.split('\n').slice(5, 6).toString().includes(`add_role:`)) ? add_role(program.toString().split('\n').slice(5, 6).toString().split(`add_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)) : (program.split('\n').slice(5, 6).toString().includes(`remove_role:`)) ? remove_role(program.toString().split('\n').slice(5, 6).toString().split(`remove_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)) : false
-                        out3 = (program.split('\n').slice(5, 6).toString().includes(`output:`)) ? `\n            ` + out3 : (program.toString().split('\n').slice(5, 6).toString().split(`reply:`).toString().split(`,`).slice(1).toString()) ? `\n            ` + out3 : (program.toString().split('\n').slice(5, 6).toString().split(`add_role:`).toString().split(`,`).slice(1).toString()) ? `\n            ` + out3 : (program.toString().split('\n').slice(5, 6).toString().split(`remove_role:`).toString().split(`,`).slice(1).toString()) ? `\n            ` + out3 : ``
+                        let sub1 = (program.includes('[')) ? actions() : ``
                         setTimeout(() => {
 
                             fs.readFile("./product/index.js", "utf8", (err, txt) => {
-                                fs.writeFileSync("./product/index.js", txt + `\nclient.on('messageCreate',(message) =>{\n      if(message.content == '${input}' && !message.author.bot){\n            ${out1}${out2}${out3}\n      }\n})\n`)
+                                let act = v.join(`}{`).toString().replace(/}{/g, `\n            `)
+                                fs.writeFileSync("./product/index.js", txt + `\nclient.on('messageCreate',(message) =>{\n      if(message.content == '${input}' && !message.author.bot){\n            ${act}\n      }\n})\n`)
                             })
                         }, 7)
                     }
@@ -341,18 +341,20 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                     let vars = type
                                                     let vars2 = (vars.includes(`string`)) ? "let string_" + `${count}` + " = interaction.options.getString('" + `${name}` + "', " + `${require}` + ")" : vars
                                                     let vars3 = (vars.includes(`number`)) ? "let number_" + `${count}` + " = interaction.options.getNumber('" + `${name}` + "'," + `${require}` + ")" : vars2
-                                                    let vars4 = (vars.includes(`member`)) ? "let member_" + `${count}` + " = interaction.options.getMember('" + `${name}` + "'," + `${require}` + ")\n                  member_" + `${count}` + " = (!member_" + `${count}` + ") ? interaction.member: member_" + `${count}` + "" : vars3
+                                                    let vars4 = (vars.includes(`member`)) ? "let member_" + `${count}` + " = interaction.options.getMember('" + `${name}` + "'," + `${require}` + ")" : vars3
                                                     let vars5 = (vars.includes(`role`)) ? "let role_" + `${count}` + " = interaction.options.getRole('" + `${name}` + "'," + `${require}` + ").id" : vars4
                                                     let vars6 = (vars.includes(`channel`)) ? "let channel_" + `${count}` + " = interaction.options.getChannel('" + `${name}` + "'," + `${require}` + ").id" : vars5
                                                     count = count + 1
                                                     v.push(`                  ` + vars6 + `\n`)
                                                 }
+                                                v = v.toString().replace(`+`, `\n`)
                                                 let string_1 = string.toString().split(` `).slice(0, 1)
                                                 let string_2 = string.toString().split(` `).slice(1, 2)
                                                 string_2 = (string_2 == string_1 || string_2 == null || !string_2) ? `` : string_2
                                                 let value = v.toString().split(`\n`).slice(Number(string), Number(string) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``)
                                                 let value_1 = v.toString().split(`\n`).slice(Number(string_1), Number(string_1) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``).split(` =`).slice(0, 1).toString().replace(/ /g, ``)
                                                 let value_2 = v.toString().split(`\n`).slice(Number(string_2), Number(string_2) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``).split(` =`).slice(0, 1).toString().replace(/ /g, ``)
+                                                string_2 = (value_2.includes(`member_`)) ? string_2  : string_2-1
                                                 let user = (value_1.includes(`member_`) && value_2) ? value_1 : value_2
                                                 user = (!value_1.includes(`member_`) && !value_2.includes(`member_`) || !value_2 && !value_1.includes(`member_`)) ? `interaction.member` : user
                                                 value_2 = (value_2 == value_1 || value_2 == null || !value_2) ? `` : "${" + value_2 + "}"
@@ -360,8 +362,11 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 let out = (!value_1.includes(`member_`)) ? value_1 : value_2
                                                 let channel = (value_1.includes(`channel_`) && value_2) ? value_1 : value_2
                                                 channel = (!value_1.includes(`channel_`)) ? value_2 : (!value_2.includes(`channel_`)) ? value_1 : out
+                                                user = (user.includes(`member_`)) ? `${user.split(` =`).slice(0,1)} = (!${user.split(` =`).slice(0,1)}) ? interaction.member: ${user.split(` =`).slice(0,1)}\n                  ` : user
                                                 const v_place = value.length - value.replace(/=/g, "").length
-                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".voice.setChannel(`" + `${channel}` + "`)\n            }\n      }\n})"
+                                                let xuser = (user.includes(`interaction.member`)) ? user.split(` =`).slice(0, 1).toString().replace(`interaction.member`,``) : user.split(` =`).slice(0, 1)
+                                                console.log(`-------->${v}<----------`)
+                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.replace(/\n,/gi,`\n`)}` + "                  " + `${user}` + "" + `${xuser}` + ".voice.setChannel(`" + `${channel}` + "`)\n            }\n      }\n})"
                                                 return reply
                                             }
 
@@ -399,40 +404,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 return reply
                                             }
 
-                                            function app_move_voice_channel_alt(string, command_name, vars) {
-                                                var v = []
-                                                const l = n_t.length
-                                                console.log(`n_t = ${l} , ${n_t}`)
-                                                for (var i = 0; i < (l); i++) {
-                                                    let name = n_t.toString().split(`name:`).slice(i + 1, i + 2).toString().split(`,`).slice(0, 1)
-                                                    let type = n_t.toString().split(`type:`).slice(i + 1, i + 2).toString().split(`,`).slice(0, 1)
-                                                    let require = n_t.toString().split(`required:`).slice(i + 1, i + 2).toString().split(`,`).slice(0, 1)
-                                                    let vars = type
-                                                    let vars2 = (vars.includes(`string`)) ? "let string_" + `${count}` + " = interaction.options.getString('" + `${name}` + "', " + `${require}` + ")" : vars
-                                                    let vars3 = (vars.includes(`number`)) ? "let number_" + `${count}` + " = interaction.options.getNumber('" + `${name}` + "'," + `${require}` + ")" : vars2
-                                                    let vars4 = (vars.includes(`member`)) ? "let member_" + `${count}` + " = interaction.options.getMember('" + `${name}` + "'," + `${require}` + ")\n                  member_" + `${count}` + " = (!member_" + `${count}` + ") ? interaction.member: member_" + `${count}` + "" : vars3
-                                                    let vars5 = (vars.includes(`role`)) ? "let role_" + `${count}` + " = interaction.options.getRole('" + `${name}` + "'," + `${require}` + ").id" : vars4
-                                                    let vars6 = (vars.includes(`channel`)) ? "let channel_" + `${count}` + " = interaction.options.getChannel('" + `${name}` + "'," + `${require}` + ").id" : vars5
-                                                    count = count + 1
-                                                    v.push(`                  ` + vars6 + `\n`)
-                                                }
-                                                let string_1 = string.toString().split(` `).slice(0, 1)
-                                                let string_2 = string.toString().split(` `).slice(1, 2)
-                                                string_2 = (string_2 == string_1 || string_2 == null || !string_2) ? `` : string_2
-                                                let value = v.toString().split(`\n`).slice(Number(string), Number(string) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``)
-                                                let value_1 = v.toString().split(`\n`).slice(Number(string_1), Number(string_1) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``).split(` =`).slice(0, 1).toString().replace(/ /g, ``)
-                                                let value_2 = v.toString().split(`\n`).slice(Number(string_2), Number(string_2) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``).split(` =`).slice(0, 1).toString().replace(/ /g, ``)
-                                                let user = (value_1.includes(`member_`) && value_2) ? value_1 : value_2
-                                                user = (!value_1.includes(`member_`) && !value_2.includes(`member_`) || !value_2 && !value_1.includes(`member_`)) ? `interaction.member` : user
-                                                value_2 = (value_2 == value_1 || value_2 == null || !value_2) ? `` : "${" + value_2 + "}"
-                                                value_1 = (value_2 == value_1 || value_1 == null || !value_1) ? `` : "${" + value_1 + "}"
-                                                let out = (!value_1.includes(`member_`)) ? value_1 : value_2
-                                                let channel = (value_1.includes(`channel_`) && value_2) ? value_1 : value_2
-                                                channel = (!value_1.includes(`channel_`)) ? value_2 : (!value_2.includes(`channel_`)) ? value_1 : out
-                                                const v_place = value.length - value.replace(/=/g, "").length
-                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".voice.setChannel(`" + `${channel}` + "`)\n            }\n      }\n})"
-                                                return reply
-                                            }
+                                            
 
                                             function app_ban_alt(string, command_name, vars) {
                                                 var v = []
@@ -555,11 +527,11 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                 let sub1 = (program.includes('[')) ? actions() : ``
                                 setTimeout(() => {
                                     function action(channel_id, emote_id, action) {
-                                        const string = `client.on("messageReactionAdd", (reaction, user) => { // When a reaction is added\n            if (user.bot) return; // If the user who reacted is a bot, return\n            if (reaction.emoji.id !== "${emote_id.toString().replace(/\n/g,``)}") return;\n            if (reaction.message.channel.id == "${channel_id}") {\n                  const {guild} = reaction.message //store the guild of the reaction in variable\n                  const member = guild.members.cache.find(member => member.id === user.id); //find the member who reacted\n                  ${action}\n      }\n})`
+                                        const string = `client.on("messageReactionAdd", (reaction, user) => { // When a reaction is added\n      if (user.bot) return; // If the user who reacted is a bot, return\n      if (reaction.emoji.id !== "${emote_id.toString().replace(/\n/g,``)}") return;\n      if (reaction.message.channel.id == "${channel_id}") {\n            const {guild} = reaction.message //store the guild of the reaction in variable\n            const member = guild.members.cache.find(member => member.id === user.id); //find the member who reacted\n            ${action}\n      }\n})`
                                         return string
                                     }
                                     fs.readFile("./product/index.js", "utf8", (err, txt2) => {
-                                        let act = v.join(`}{`).toString().replace(/}{/g, `\n                  `)
+                                        let act = v.join(`}{`).toString().replace(/}{/g, `\n            `)
                                         fs.writeFile('./product/index.js', txt2 + `\n` + action(channel_id, emote_name, act), function (err) {
                                             if (err) throw err;
                                         })
