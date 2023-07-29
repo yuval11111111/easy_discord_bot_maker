@@ -60,14 +60,20 @@ key:your-bot-token,
 
 ### welcome command
 + **welcome {}** the base of all welcome commands (in most cases only one is needed)
++ **action []** the base of all actions
 + **channel_id:discord_channel_id,** the channel that you want the welcome messages to be sent in
 + **message:message,** the message you want the bot to send when someone joins the server *(key words: user -> will ping the user that joined, name -> will type the username of the user that joined)*
++ **dm:message** send a DM to the member that joined *(key words: user -> will ping the user that joined, name -> will type the username of the user that joined)*
++ **add_role:role_id** will add the role to the member that joined
++ **remove_role:role_id** will remove the role from the member that joined
 
 #### how to write a welcome command
 ```
 welcome {
 channel_id:discord_channel_id,
+action [
 message:text message,
+]
 }
 ```
 
