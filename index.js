@@ -44,11 +44,13 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                 let add_role = unit.split(`add_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g,``)
                                 let remove_role = unit.split(`remove_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
                                 let output = unit.split(`output:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g,``)
+                                let dm = unit.split(`dm:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g,``)
                                 let action = (unit.includes(`reply`)) ? "message.reply('" + `${reply}` + "').catch(console.error())" : ``
                                 let action2 = (unit.includes(`add_role`)) ? `message.member.roles.add('${add_role}').catch(console.error())` : action
                                 let action3 = (unit.includes(`remove_role`)) ? `message.member.roles.add('${remove_role}').catch(console.error())` : action2
                                 let action4 = (unit.includes(`output`)) ? `message.channel.send('${output}').catch(console.error())` : action3
-                                v.push(action4)
+                                let action5 = (unit.includes(`dm`)) ? `message.author.send('${dm}').catch(console.error())` : action4
+                                v.push(action5)
                             }
                         }
                         let sub1 = (program.includes('[')) ? actions() : ``
@@ -94,19 +96,42 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                     if (program.includes(`welcome {`)) {
                         setTimeout(() => {
                             let channel = program.split(`channel_id:`).slice(1, 2).toString().split(`,`).slice(0, 1)
-                            let message = program.split(`message:`).slice(1, 2).toString().split(`,`).slice(0, 1)
 
                             function User(string) {
                                 const U = string.toString().replace(/user/g, `$` + `{user}`).replace(/name/g, `$` + `{name}`)
 
                                 return U
                             }
-                            fs.readFile("./product/index.js", "utf8", (err, txt) => {
+                            var v = []
+                            function actions() {
+                                const l = program.length - program.replace(/[[]/g, ``).length
+                                console.log(`----------------------->` + l)
+                                for (var i = 0; i < l; i++) {
+                                    let unit = program.split(`]`).slice(i, i + 1).toString()
+                                    let type = unit.split(` [`).slice(0, 1).toString()
+                                    unit = unit.split(type).slice(1, 2).toString()
+                                    let message = unit.split(`message:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let dm = unit.split(`dm:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let add_role = unit.split(`add_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let remove_role = unit.split(`remove_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let action = (unit.includes(`dm`)) ? "user.send({content:'" + `${User(dm)}` + "'}).catch(console.error())" : ``
+                                    let action2 = (unit.includes(`add_role`)) ? `member.roles.add('${add_role}').catch(console.error())` : action
+                                    let action3 = (unit.includes(`remove_role`)) ? `member.roles.add('${remove_role}').catch(console.error())` : action2
+                                    let action4 = (unit.includes(`message`)) ? `Channel.send('${User(message)}')` : action3
+                                    v.push(action4)
+                                    console.log(`------------------------->`+action4)
+                                }
+                            }
+                            let sub1 = (program.includes('[')) ? actions() : ``
+                            setTimeout(() => {
+                                fs.readFile("./product/index.js", "utf8", (err, txt) => {
+                                    let act = v.join(`}{`).toString().replace(/}{/g, `\n      `)
 
-                                const add = `\nclient.on('guildMemberAdd', (member, message) => {\n      const user = member.user\n      const name = user.username\n      const Channel = client.channels.cache.get('${channel}');\n      Channel.send({content:'${User(message)}'})\n})\n`
+                                    const add = `\nclient.on('guildMemberAdd', (member, message) => {\n      const user = member.user\n      const name = user.username\n      const Channel = client.channels.cache.get('${channel}');\n      ${act}\n})\n`
 
-                                fs.writeFileSync('./product/index.js', txt + add.replace(/'/g, '`'))
-                            })
+                                    fs.writeFileSync('./product/index.js', txt + add.replace(/'/g, '`'))
+                                })
+                            },1)
                         }, 7)
                     }
                     if (program.includes(`command {`)) {
@@ -404,8 +429,6 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 return reply
                                             }
 
-                                            
-
                                             function app_ban_alt(string, command_name, vars) {
                                                 var v = []
                                                 const l = n_t.length
@@ -553,9 +576,45 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
 })
 
 /*
-reaction
-actions:
+got to do:
+message {
+embed (
+title
+author
+description
+icon_image_link
+thumbnail_image_link
+fields 1 | 2
+color
+footers
+)
+-dm-
+buttons(
+label
+custom_id
+type
+action < >
+)
+}
+command {
+Modularity 
+buttons (
+label
+custom_id
+type
+action < >
+)
+embed
 dm
-add role
-remove role
+welcome {
+*maybe canvas welcome image[
+*background_image_link
+]
+-welcome dm-
+-welcome role add/remove-
+embed (
+
+)
+}
+}
 */
