@@ -33,6 +33,9 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                     if (program.includes(`message {`)) {
                         let input = program.split(`input:`).slice(1, 2).toString().split(`,`).slice(0, 1)
                         var v = []
+                        var v2 = []
+                        var a = []
+                        var o = []
 
                         function actions() {
                             const l = program.length - program.replace(/[[]/g, ``).length
@@ -54,11 +57,72 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                             }
                         }
                         let sub1 = (program.includes('[')) ? actions() : ``
+                        let sub2 = (program.includes('(')) ? actions2() : ``
+                        function actions2() {
+                            var counter = 0
+                            const l2 = program.length - program.replace(/[(]/g, ``).length
+                            console.log(l2 + `<<<<<<<<<<<<<<<<<<<<<`)
+                            for (var i = 0; i < l2; i++) {
+                                let unit = program.split(`)`).slice(i, i + 1).toString()
+                                let type = unit.split(` (`).slice(0, 1).toString()
+                                unit = unit.split(type).slice(1, 2).toString()
+                                let embed = type.includes(`embed`)
+                                let button = type.includes(`button`)
+                                console.log(type + `<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<`)
+                                if (embed) {
+                                    let title = unit.split(`title:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let description = unit.split(`description:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let author = unit.split(`author:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let color = unit.split(`color:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let icon = unit.split(`icon:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let thumbnail = unit.split(`thumbnail:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let felid_1 = unit.split(`field:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let felid_2 = unit.split(`field:`).slice(2, 3).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let footer = unit.split(`footer:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``) 
+                                    let output = unit.includes(`output,`)
+                                    let reply = unit.includes(`reply,`)
+                                    if (output) {
+                                        o = `\n            message.channel.send`
+                                    } else if (reply) {
+                                        o = `\n            message.reply`
+                                    }
+                                    Embed(author, title, description, color, icon, thumbnail, felid_1, felid_2, footer)
+                                    function Embed(author, title, description, color, image, thumbnail, felid_1,felid_2, footer) {
+                                        let Title = (unit.includes(`title`)) ? `\n                  .setTitle("${title}")` : ``
+                                        let Description = (unit.includes(`description`)) ? `\n                  .setDescription("${description}")` : ``
+                                        let Author = (unit.includes(`author`)) ? `\n                  .setAuthor({name:"${author}"})` : ``
+                                        let Color = (unit.includes(`color`)) ? `\n                  .setColor(0x${color})` : ``
+                                        let Icon = (unit.includes(`icon`)) ? `\n                  .setImage("${image}")` : ``
+                                        let Thumbnail = (unit.includes(`thumbnail`)) ? `\n                  .setThumbnail("${thumbnail}")` : ``
+                                        let Felid_1 = (unit.includes(`field`)) ? `\n                  .addFields({name:"${felid_1.split(` | `).slice(0,1)}",value:"${felid_1.split(` | `).slice(1,2)}"})` : ``
+                                        let Felid_2 = (!felid_2) ? `` : (unit.includes(`field`)) ? `\n                  .setFields({name:"${felid_2.split(` | `).slice(0,1)}",value:"${felid_2.split(` | `).slice(1,2)}"})` : ``
+                                        let Footer = (unit.includes(`footer`)) ? `\n                  .setFooter({text:"${footer}"})` : ``
+                                        let string = `\n            const embed_${counter} = new Discord.EmbedBuilder()` + Title + Description + Author + Color + Icon + Thumbnail + Felid_1 + Felid_2 + Footer
+                                        if (!a.toString().includes(`embeds:`)) {
+                                            a.push(`embeds:[embed_${counter}]`)
+                                        }
+                                        else if (a.toString().includes(`embeds:[embed_${counter-1}]`)){
+                                            a.push(`[embed_${counter}]`)
+                                        } else {
+                                            a.push(`[embed_${counter}]`)
+                                        }
+                                        counter = counter + 1
+                                        return v2.push(string)
+                                    }
+                                    
+                                }
+                                if (button) {
+
+                                }
+                            }
+                        }
+                        
                         setTimeout(() => {
 
                             fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                 let act = v.join(`}{`).toString().replace(/}{/g, `\n            `)
-                                fs.writeFileSync("./product/index.js", txt + `\nclient.on('messageCreate',(message) =>{\n      if(message.content == '${input}' && !message.author.bot){\n            ${act}\n      }\n})\n`)
+                                let act2 = v2.join(`}{`).toString().replace(/}{/g, `\n            `)
+                                fs.writeFileSync("./product/index.js", txt + `\nclient.on('messageCreate',(message) =>{\n      if(message.content == '${input}' && !message.author.bot){\n            ${act}${act2}${o}({${a.toString().replace(`],[`,`,`)}})\n      }\n})\n`)
                             })
                         }, 7)
                     }
@@ -578,17 +642,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
 /*
 got to do:
 message {
-embed (
-title
-author
-description
-icon_image_link
-thumbnail_image_link
-fields 1 | 2
-color
-footers
-)
--dm-
+*embed () bug fixing and edge cases checking    
 buttons(
 label
 custom_id
@@ -606,15 +660,20 @@ action < >
 )
 embed
 dm
-welcome {
-*maybe canvas welcome image[
-*background_image_link
-]
--welcome dm-
--welcome role add/remove-
-embed (
-
-)
 }
+welcome {
+* maybe canvas welcome image[ *
+background_image_link
+] 
+embed(
+title
+author
+description
+icon_image_link
+thumbnail_image_link
+fields 1 | 2
+color
+footers
+)
 }
 */
