@@ -17,11 +17,20 @@ to create/edit the "code" open the request.txt file and type your request using 
 ### message commands
 + **message {}** base of all message commands
 + **action []** the base of all actions
++ **embed ()** the base of all embeds
 + **input:message,** requires to choose the string will activate this message command
 + **output:message,** will send a normal message when the input string was detected
 + **reply:message,** will reply to the message if its content equals to the input string
-+ **add_role:role_id** will add the role to the message author if the input string was detected
-+ **remove_role:role_id** will remove the role from the message author if the input string was detected
++ **add_role:role_id,** will add the role to the message author if the input string was detected
++ **remove_role:role_id,** will remove the role from the message author if the input string was detected
+
+#### embed options
++ **title:string** add a title to your embed message (can be used only once per embed) **optional**
++ **description:string** add a description to your embed message (can be used only once per embed) **optional**
++ **author:string** adds a small text on the top left of the embed message (can be used only once per embed) **optional**
++ **color:0x+hex color code** decide the color of the line on the left side of the embed message (can be used only once per embed) **required**
++ **fields:string | string** add a text field and a subtext field to the embed message (can be used up to 2 times per embed, the text to the left of the "|" is the field and the text to the right is the subfield) **required**
++ **footer:string** added a footer to the embed message (can be used only once per embed) **optional**
 
 **you can put only one action per action []**
 
@@ -38,10 +47,17 @@ reply:reply-message,
 action [
 add_role:role_id,
 ]
+embed (
+title:test,
+description:test,
+author:author,
+color:000000,
+field:test | test,
+field:test2 | test2,
+footer:test,
+)
 }
 ```
-
-**output must come after the input**
 
 ### token command
 + **token {}** base of token command (required only once in the code)
