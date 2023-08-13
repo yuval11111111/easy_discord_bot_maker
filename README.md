@@ -18,6 +18,7 @@ to create/edit the "code" open the request.txt file and type your request using 
 + **message {}** base of all message commands
 + **action []** the base of all actions
 + **embed ()** the base of all embeds
++ **button ()** the base of all buttons
 + **input:message,** requires to choose the string will activate this message command
 + **output:message,** will send a normal message when the input string was detected
 + **reply:message,** will reply to the message if its content equals to the input string
@@ -31,6 +32,16 @@ to create/edit the "code" open the request.txt file and type your request using 
 + **color:0x+hex color code** decide the color of the line on the left side of the embed message (can be used only once per embed) **required**
 + **fields:string | string** add a text field and a subtext field to the embed message (can be used up to 2 times per embed, the text to the left of the "|" is the field and the text to the right is the subfield) **required**
 + **footer:string** added a footer to the embed message (can be used only once per embed) **optional**
+
+#### button options
++ **custom_id:string** the id of the button (can be anything but each id can be used only once across the program)
++ **label:string** the text you want on the button
++ **type:secondary/danger/link/primary/success** the type of the button you want to use (will change the color and actions of the button)
++ **link:URL** an url you want discord to open for any user when they use that specific button (will work only with link type buttons)
++ **button_reply:string** the bot will send a message that only *user* can see one time
++ **button_add_role:role_id** will add to *user* the role after pressing the button
++ **button_remove_role:role_id** will remove from *user* the role after pressing the button
++ **button_dm:string** will send a DM to *user* with *string* as content
 
 **you can put only one action per action []**
 
@@ -55,6 +66,14 @@ color:000000,
 field:test | test,
 field:test2 | test2,
 footer:test,
+)
+button (
+custom_id:a,
+label:test,
+type:Secondary,
+button_reply:test1,
+button_reply:test11,
+output,
 )
 }
 ```
@@ -83,6 +102,14 @@ key:your-bot-token,
 + **add_role:role_id** will add the role to the member that joined
 + **remove_role:role_id** will remove the role from the member that joined
 
+#### welcome embed options
++ **title:string** add a title to your embed message (can be used only once per embed) **optional**
++ **description:string** add a description to your embed message (can be used only once per embed) **optional**
++ **author:string** adds a small text on the top left of the embed message (can be used only once per embed) **optional**
++ **color:0x+hex color code** decide the color of the line on the left side of the embed message (can be used only once per embed) **required**
++ **fields:string | string** add a text field and a subtext field to the embed message (can be used up to 2 times per embed, the text to the left of the "|" is the field and the text to the right is the subfield) **required**
++ **footer:string** added a footer to the embed message (can be used only once per embed) **optional**
+
 #### how to write a welcome command
 ```
 welcome {
@@ -90,6 +117,15 @@ channel_id:discord_channel_id,
 action [
 message:text message,
 ]
+embed (
+title:test,
+description:test,
+author:author,
+color:000000,
+field:test | test,
+field:test2 | test2,
+footer:test,
+)
 }
 ```
 
@@ -119,6 +155,7 @@ message:text message,
 + **name:sub_command_name,** the name of the sub command and the name the sub command will show at on discord (each name can be used once per command, required every time)
 + **description:sub_command_description,** the description of the sub command and the description the sub command will show at on discord below the sub command name (required every time)
 + **required:boolean(true/false),** use for choose if that sub command required for running the command or not (required every time)
+
 **you can chain up to 2 sub commands for an output (as shown in the full example below)**
 
 #### how to write an application command command
