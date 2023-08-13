@@ -1,3 +1,6 @@
+const {
+    ButtonStyle
+} = require('discord.js');
 const fs = require('fs');
 
 fs.writeFileSync("./product/index.js", ``)
@@ -34,8 +37,15 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                         let input = program.split(`input:`).slice(1, 2).toString().split(`,`).slice(0, 1)
                         var v = []
                         var v2 = []
+                        var v3 = []
+                        var v4 = []
                         var a = []
+                        var a2 = []
                         var o = []
+                        var o2 = []
+                        var S = []
+                        var ac = []
+                        var counter = 0
 
                         function actions() {
                             const l = program.length - program.replace(/[[]/g, ``).length
@@ -44,10 +54,10 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                 let type = unit.split(` [`).slice(0, 1).toString()
                                 unit = unit.split(type).slice(1, 2).toString()
                                 let reply = unit.split(`reply:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
-                                let add_role = unit.split(`add_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g,``)
+                                let add_role = unit.split(`add_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
                                 let remove_role = unit.split(`remove_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
-                                let output = unit.split(`output:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g,``)
-                                let dm = unit.split(`dm:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g,``)
+                                let output = unit.split(`output:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                let dm = unit.split(`dm:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
                                 let action = (unit.includes(`reply`)) ? "message.reply('" + `${reply}` + "').catch(console.error())" : ``
                                 let action2 = (unit.includes(`add_role`)) ? `message.member.roles.add('${add_role}').catch(console.error())` : action
                                 let action3 = (unit.includes(`remove_role`)) ? `message.member.roles.add('${remove_role}').catch(console.error())` : action2
@@ -58,11 +68,12 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                         }
                         let sub1 = (program.includes('[')) ? actions() : ``
                         let sub2 = (program.includes('(')) ? actions2() : ``
+
                         function actions2() {
-                            var counter = 0
+
                             const l2 = program.length - program.replace(/[(]/g, ``).length
                             console.log(l2 + `<<<<<<<<<<<<<<<<<<<<<`)
-                            for (var i = 0; i < l2; i++) {
+                            for (var i = 0; i < l2 + 1; i++) {
                                 let unit = program.split(`)`).slice(i, i + 1).toString()
                                 let type = unit.split(` (`).slice(0, 1).toString()
                                 unit = unit.split(type).slice(1, 2).toString()
@@ -78,30 +89,32 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                     let thumbnail = unit.split(`thumbnail:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
                                     let felid_1 = unit.split(`field:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
                                     let felid_2 = unit.split(`field:`).slice(2, 3).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
-                                    let footer = unit.split(`footer:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``) 
+                                    let footer = unit.split(`footer:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
                                     let output = unit.includes(`output,`)
                                     let reply = unit.includes(`reply,`)
                                     if (output) {
                                         o = `\n            message.channel.send`
                                     } else if (reply) {
                                         o = `\n            message.reply`
+                                    } else {
+                                        o = `\n            message.channel.send`
                                     }
                                     Embed(author, title, description, color, icon, thumbnail, felid_1, felid_2, footer)
-                                    function Embed(author, title, description, color, image, thumbnail, felid_1,felid_2, footer) {
+
+                                    function Embed(author, title, description, color, image, thumbnail, felid_1, felid_2, footer) {
                                         let Title = (unit.includes(`title`)) ? `\n                  .setTitle("${title}")` : ``
                                         let Description = (unit.includes(`description`)) ? `\n                  .setDescription("${description}")` : ``
                                         let Author = (unit.includes(`author`)) ? `\n                  .setAuthor({name:"${author}"})` : ``
                                         let Color = (unit.includes(`color`)) ? `\n                  .setColor(0x${color})` : ``
                                         let Icon = (unit.includes(`icon`)) ? `\n                  .setImage("${image}")` : ``
                                         let Thumbnail = (unit.includes(`thumbnail`)) ? `\n                  .setThumbnail("${thumbnail}")` : ``
-                                        let Felid_1 = (unit.includes(`field`)) ? `\n                  .addFields({name:"${felid_1.split(` | `).slice(0,1)}",value:"${felid_1.split(` | `).slice(1,2)}"})` : ``
-                                        let Felid_2 = (!felid_2) ? `` : (unit.includes(`field`)) ? `\n                  .setFields({name:"${felid_2.split(` | `).slice(0,1)}",value:"${felid_2.split(` | `).slice(1,2)}"})` : ``
+                                        let Felid_1 = (unit.includes(`field`)) ? `\n                  .addFields({name:"${felid_1.split(` | `).slice(0, 1)}",value:"${felid_1.split(` | `).slice(1, 2)}"})` : ``
+                                        let Felid_2 = (!felid_2) ? `` : (unit.includes(`field`)) ? `\n                  .setFields({name:"${felid_2.split(` | `).slice(0, 1)}",value:"${felid_2.split(` | `).slice(1, 2)}"})` : ``
                                         let Footer = (unit.includes(`footer`)) ? `\n                  .setFooter({text:"${footer}"})` : ``
                                         let string = `\n            const embed_${counter} = new Discord.EmbedBuilder()` + Title + Description + Author + Color + Icon + Thumbnail + Felid_1 + Felid_2 + Footer
                                         if (!a.toString().includes(`embeds:`)) {
                                             a.push(`embeds:[embed_${counter}]`)
-                                        }
-                                        else if (a.toString().includes(`embeds:[embed_${counter-1}]`)){
+                                        } else if (a.toString().includes(`embeds:[embed_${counter - 1}]`)) {
                                             a.push(`[embed_${counter}]`)
                                         } else {
                                             a.push(`[embed_${counter}]`)
@@ -109,20 +122,103 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                         counter = counter + 1
                                         return v2.push(string)
                                     }
-                                    
                                 }
                                 if (button) {
+                                    let count = 1
+                                    let custom_id = unit.split(`custom_id:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let label = unit.split(`label:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let type = unit.split(`type:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let type2 = (type.toLowerCase().includes(`secondary`)) ? `Discord.ButtonStyle.Secondary` : `Discord.ButtonStyle.Secondary`
+                                    let type3 = (type.toLowerCase().includes(`danger`)) ? `Discord.ButtonStyle.Danger` : type2
+                                    let type4 = (type.toLowerCase().includes(`link`)) ? `Discord.ButtonStyle.Link` : type3
+                                    let type5 = (type.toLowerCase().includes(`primary`)) ? `Discord.ButtonStyle.Primary` : type4
+                                    let type6 = (type.toLowerCase().includes(`success`)) ? `Discord.ButtonStyle.Success` : type5
+                                    let link = (type6 == `Discord.ButtonStyle.Link`) ? `\n                              .setURL("` + unit.split(`link:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``) + `")` : ``
 
+                                    let unit2 = program.split(`)`).slice(i, i + 1).toString()
+                                    console.log(unit2 + `<-----------<-------------`, custom_id)
+                                    let reply_button = unit2.split(`button_reply:`).slice(count, count + 1).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let add_role_button = unit2.split(`button_add_role:`).slice(count, count + 1).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let remove_role_button = unit2.split(`button_remove_role:`).slice(count, count + 1).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let output_button = unit2.split(`button_output:`).slice(count, count + 1).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let dm_button = unit2.split(`button_dm:`).slice(count, count + 1).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let reply_button_2 = unit2.split(`button_reply:`).slice(count + 1, count + 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let add_role_button_2 = unit2.split(`button_add_role:`).slice(count + 1, count + 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let remove_role_button_2 = unit2.split(`button_remove_role:`).slice(count + 1, count + 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let output_button_2 = unit2.split(`button_output:`).slice(count + 1, count + 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let dm_button_2 = unit2.split(`button_dm:`).slice(count + 1, count + 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let action_button = (unit2.includes(`button_reply`)) ? "interaction.reply({content:'" + `${reply_button}` + "',ephemeral:true}).catch(console.error())" : ``
+                                    let action_button2 = (unit2.includes(`button_add_role`)) ? `interaction.member.roles.add('${add_role_button}').catch(console.error())` : action_button
+                                    let action_button3 = (unit2.includes(`button_remove_role`)) ? `interaction.member.roles.add('${remove_role_button}').catch(console.error())` : action_button2
+                                    let action_button4 = (unit2.includes(`button_output`)) ? `interaction.channel.send({content:'${output_button}',ephemeral:true}).catch(console.error())` : action_button3
+                                    let action_button5 = (unit2.includes(`button_dm`)) ? `interaction.user.send('${dm_button}').catch(console.error())` : action_button4
+                                    let action_button_2 = (unit2.includes(`button_reply`)) ? "interaction.reply({content:'" + `${reply_button_2}` + "',ephemeral:true}).catch(console.error())" : ``
+                                    let action_button2_2 = (unit2.includes(`button_add_role`)) ? `interaction.member.roles.add('${add_role_button_2}').catch(console.error())` : action_button_2
+                                    let action_button3_2 = (unit2.includes(`button_remove_role`)) ? `interaction.member.roles.add('${remove_role_button_2}').catch(console.error())` : action_button2_2
+                                    let action_button4_2 = (unit2.includes(`button_output`)) ? `interaction.channel.send({content:'${output_button_2}',ephemeral:true}).catch(console.error())` : action_button3_2
+                                    let action_button5_2 = (unit2.includes(`button_dm`)) ? `interaction.user.send('${dm_button_2}').catch(console.error())` : action_button4_2
+                                    let output = unit2.includes(`output,`)
+                                    let reply = unit2.includes(`reply,`)
+                                    let Id = unit2.split(`custom_id:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+
+
+                                    if (output) {
+                                        o2 = `\n            message.channel.send`
+                                    } else if (reply) {
+                                        o2 = `\n            message.reply`
+                                    } else {
+                                        o2 = `\n            message.channel.send`
+                                    }
+                                    if (unit2) {
+                                        S.push(action(Id).replace(/,client/g, `\nclient`))
+                                        count = count + 1
+                                    }
+                                    custom_id = (custom_id && !link) ? `\n                              .setCustomId("${custom_id}")` : ``
+                                    Button(custom_id, label, type6)
+
+                                    function action(id) {
+                                        let string_2 = `client.on('interactionCreate', (interaction) => {\n      if (interaction.isButton() && interaction.customId == "${id}") {\n${action_button5}\n             \n${action_button5_2}      \n      }\n})`
+                                        return string_2
+                                    }
+
+                                    function Button(custom_id, label, style) {
+                                        let buttons = `\n                        new ButtonBuilder()${custom_id}${link}\n                              .setLabel("${label}")\n                              .setStyle(${style}),\r`
+                                        return v3.push(buttons)
+                                    }
                                 }
                             }
                         }
-                        
+
                         setTimeout(() => {
 
                             fs.readFile("./product/index.js", "utf8", (err, txt) => {
+                                function splitArrayToGroups(array, groupSize) {
+                                    const groups = [];
+                                    const ary = []
+                                    let i = 0;
+                                    while (i < array.length) {
+                                        let string = `\n            const row_${i} = new Discord.ActionRowBuilder()\n                  .addComponents(`
+                                        groups.push(string + array.slice(i, i + groupSize) + `)`);
+                                        ary.push(`row_${i}`)
+                                        i += groupSize;
+                                    }
+                                    a2.push(`components:[` + ary + `]`)
+                                    return groups.join(``).toString().replace(/,\r,/g, ",\n")
+                                }
+                                console.log(splitArrayToGroups(v3, 5))
                                 let act = v.join(`}{`).toString().replace(/}{/g, `\n            `)
                                 let act2 = v2.join(`}{`).toString().replace(/}{/g, `\n            `)
-                                fs.writeFileSync("./product/index.js", txt + `\nclient.on('messageCreate',(message) =>{\n      if(message.content == '${input}' && !message.author.bot){\n            ${act}${act2}${o}({${a.toString().replace(`],[`,`,`)}})\n      }\n})\n`)
+                                let embed = (program.includes(`embed (`)) ? `\n({${a.toString().replace(`],[`, `,`)}})` : ``
+                                let button_end = (program.includes(`button (`)) ? `)` : ``
+                                let pr = `\nclient.on('messageCreate',(message) =>{\n      if(message.content == '${input}' && !message.author.bot){\n            ${act}${act2}${o}${embed}\n${splitArrayToGroups(v3, 5)}\n${o2}({${a2.join(`*`).toString().split(`*`).slice(0, 1).toString().replace(/\ninteraction.reply({content:'',ephemeral:true}).catch(console.error())/g,`
+                                `)}}).catch(console.error())\n      }\n})\n` + `\n${S}`
+                                pr = pr.replace(`\n({components:[]}).catch(console.error())`, ``).replace(/\ninteraction.reply({content:'',ephemeral:true}).catch(console.error())/g, ``)
+                                fs.writeFileSync("./product/index.js", txt + pr)
+                                setTimeout(() => {
+                                    fs.readFile("./product/index.js", "utf8", (err, txt2) => {
+                                        fs.writeFileSync("./product/index.js", txt2.replace(`\ninteraction.reply({content:'',ephemeral:true}).catch(console.error())`, ``).replace(`\ninteraction.channel.send({content:'',ephemeral:true}).catch(console.error())`, ``))
+                                    })
+                                }, 1)
                             })
                         }, 7)
                     }
@@ -167,6 +263,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                 return U
                             }
                             var v = []
+
                             function actions() {
                                 const l = program.length - program.replace(/[[]/g, ``).length
                                 console.log(`----------------------->` + l)
@@ -183,10 +280,43 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                     let action3 = (unit.includes(`remove_role`)) ? `member.roles.add('${remove_role}').catch(console.error())` : action2
                                     let action4 = (unit.includes(`message`)) ? `Channel.send('${User(message)}')` : action3
                                     v.push(action4)
-                                    console.log(`------------------------->`+action4)
+                                    console.log(`------------------------->` + action4)
+                                }
+                            }
+
+                            function Embed() {
+                                const l2 = program.length - program.replace(/[(]/g, ``).length
+                                for (let i = 0; i < l2; i++) {
+                                    let unit = program.toString().split(`)`).slice(i, i + 1).toString()
+                                    let type = unit.split(` (`).slice(0, 1).toString()
+                                    unit = unit.split(type).slice(1, 2).toString()
+                                    let title = unit.split(`title:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let description = unit.split(`description:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let author = unit.split(`author:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let color = unit.split(`color:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let field_1 = unit.split(`field:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let field_2 = unit.split(`field:`).slice(2,3).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let image = unit.split(`image:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let thumbnail = unit.split(`thumbnail:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                    let footer = unit.split(`footer:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+
+                                    console.log([`test.........................`])
+                                    let Title = (unit.includes(`title`)) ? `\n                  .setTitle("${title}")` : ``
+                                    let Description = (unit.includes(`description`)) ? `\n                  .setDescription("${description}")` : ``
+                                    let Author = (unit.includes(`author`)) ? `\n                  .setAuthor({name:"${author}"})` : ``
+                                    let Color = (unit.includes(`color`)) ? `\n                  .setColor(0x${color})` : ``
+                                    let Icon = (unit.includes(`icon`)) ? `\n                  .setImage("${image}")` : ``
+                                    let Thumbnail = (unit.includes(`thumbnail`)) ? `\n                  .setThumbnail("${thumbnail}")` : ``
+                                    let Field_1 = (unit.includes(`field`)) ? `\n                  .addFields({name:"${field_1.split(` | `).slice(0, 1)}",value:"${field_1.split(` | `).slice(1, 2)}"})` : ``
+                                    let Field_2 = (!field_2) ? `` : (unit.includes(`field`)) ? `\n                  .setFields({name:"${field_2.split(` | `).slice(0, 1)}",value:"${field_2.split(` | `).slice(1, 2)}"})` : ``
+                                    let Footer = (unit.includes(`footer`)) ? `\n                  .setFooter({text:"${footer}"})` : ``
+
+                                    let string = `const embed_${i} = new Discord.EmbedBuilder()` + Title + Description + Author + Color + Icon + Thumbnail + Field_1 + Field_2 + Footer + `\n                  Channel.send({embeds:[embed_${i}]})`
+                                    v.push(string)
                                 }
                             }
                             let sub1 = (program.includes('[')) ? actions() : ``
+                            let embed = (program.includes('(')) ? Embed() : ``
                             setTimeout(() => {
                                 fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                     let act = v.join(`}{`).toString().replace(/}{/g, `\n      `)
@@ -195,7 +325,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
 
                                     fs.writeFileSync('./product/index.js', txt + add.replace(/'/g, '`'))
                                 })
-                            },1)
+                            }, 1)
                         }, 7)
                     }
                     if (program.includes(`command {`)) {
@@ -443,7 +573,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 let value = v.toString().split(`\n`).slice(Number(string), Number(string) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``)
                                                 let value_1 = v.toString().split(`\n`).slice(Number(string_1), Number(string_1) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``).split(` =`).slice(0, 1).toString().replace(/ /g, ``)
                                                 let value_2 = v.toString().split(`\n`).slice(Number(string_2), Number(string_2) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``).split(` =`).slice(0, 1).toString().replace(/ /g, ``)
-                                                string_2 = (value_2.includes(`member_`)) ? string_2  : string_2-1
+                                                string_2 = (value_2.includes(`member_`)) ? string_2 : string_2 - 1
                                                 let user = (value_1.includes(`member_`) && value_2) ? value_1 : value_2
                                                 user = (!value_1.includes(`member_`) && !value_2.includes(`member_`) || !value_2 && !value_1.includes(`member_`)) ? `interaction.member` : user
                                                 value_2 = (value_2 == value_1 || value_2 == null || !value_2) ? `` : "${" + value_2 + "}"
@@ -453,7 +583,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 channel = (!value_1.includes(`channel_`)) ? value_2 : (!value_2.includes(`channel_`)) ? value_1 : out
                                                 user = (user.includes(`member_`)) ? `${user.split(` =`).slice(0,1)} = (!${user.split(` =`).slice(0,1)}) ? interaction.member: ${user.split(` =`).slice(0,1)}\n                  ` : user
                                                 const v_place = value.length - value.replace(/=/g, "").length
-                                                let xuser = (user.includes(`interaction.member`)) ? user.split(` =`).slice(0, 1).toString().replace(`interaction.member`,``) : user.split(` =`).slice(0, 1)
+                                                let xuser = (user.includes(`interaction.member`)) ? user.split(` =`).slice(0, 1).toString().replace(`interaction.member`, ``) : user.split(` =`).slice(0, 1)
                                                 console.log(`-------->${v}<----------`)
                                                 const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.replace(/\n,/gi,`\n`)}` + "                  " + `${user}` + "" + `${xuser}` + ".voice.setChannel(`" + `${channel}` + "`)\n            }\n      }\n})"
                                                 return reply
@@ -597,6 +727,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                 let channel_id = program.split(`channel_id:`).slice(1, 2).toString().split(`,`).slice(0, 1)
                                 const l = program.length - program.replace(/[[]/g, ``).length
                                 var v = []
+
                                 function actions() {
                                     for (var i = 0; i < l; i++) {
                                         let unit = program.split(`]`).slice(i, i + 1).toString()
@@ -605,7 +736,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                         let dm = unit.split(`dm:`).slice(1, 2).toString().split(`,`).slice(0, 1)
                                         let add_role = unit.split(`add_role:`).slice(1, 2).toString().split(`,`).slice(0, 1)
                                         let remove_role = unit.split(`remove_role:`).slice(1, 2).toString().split(`,`).slice(0, 1)
-                                        let action = (unit.includes(`dm`)) ? "user.send('"+`${dm}`+"').catch(console.error())" : ``
+                                        let action = (unit.includes(`dm`)) ? "user.send('" + `${dm}` + "').catch(console.error())" : ``
                                         let action2 = (unit.includes(`add_role`)) ? `member.roles.add('${add_role}').catch(console.error())` : action
                                         let action3 = (unit.includes(`remove_role`)) ? `member.roles.remove('${remove_role}').catch(console.error())` : action2
                                         v.push(action3)
@@ -623,7 +754,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                             if (err) throw err;
                                         })
                                     })
-                                },1)
+                                }, 1)
                             }, 7)
                         }
                         reaction_message()
@@ -643,12 +774,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
 got to do:
 message {
 *embed () bug fixing and edge cases checking    
-buttons(
-label
-custom_id
-type
-action < >
-)
+*buttons() bug fixing and edge cases checking
 }
 command {
 Modularity 
@@ -662,7 +788,7 @@ embed
 dm
 }
 welcome {
-* maybe canvas welcome image[ *
+* maybe canvas welcome image[
 background_image_link
 ] 
 embed(
