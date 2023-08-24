@@ -1,6 +1,3 @@
-const {
-    ButtonStyle
-} = require('discord.js');
 const fs = require('fs');
 
 fs.writeFileSync("./product/index.js", ``)
@@ -291,8 +288,9 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
 
                                         console.log([unit])
 
-                                        let string = `let img_user = user.displayAvatarURL({\n            extension: 'png',\n            dynamic: false,\n            format: 'png'\n      })\n      let bg2 = new Image()\n      bg2.src = "${url}"\n      let av2 = new Image()\n      let av = loadImage((img_user))\n      let text_color = '${text_color}'\n      registerFont('./ggsans-Bold.ttf', {\n            family: 'gg sans'\n      })\n\n      setTimeout(canvas_create, 800)\n\n      function canvas_create() {\n            const canvas = createCanvas(1000, 500)\n            const ctx = canvas.getContext('2d')\n            ctx.drawImage(bg2, 0, 0, canvas.width, canvas.height)\n\n            ctx.beginPath()\n            ctx.arc(500, 210, 131, 0, 2 * Math.PI)\n            ctx.lineWidth = 4\n            ctx.strokeStyle = '#ffffff'\n            ctx.stroke()\n            ctx.closePath()\n\n            ctx.textAlign = "center"\n\n            ctx.fillStyle = text_color\n            ctx.font = "bold 40px gg sans"\n            ctx.fillText(` + "`${user.username}`" + `, 500, 400, 200)\n\n            ctx.beginPath()\n            ctx.arc(500, 210, 130, 0, 2 * Math.PI, true)\n            ctx.closePath()\n            ctx.clip()\n\n            ctx.drawImage(av2, 370, 80, 270, 270)\n\n            const at = new Discord.AttachmentBuilder(canvas.toBuffer(), "rank.png")\n\n            Channel.send({\n                  files: [at]\n            })\n      }\n      av2.src = img_user`
-                                        setTimeout(() =>{
+                                        let string = `let img_user = user.displayAvatarURL({\n            extension: 'png',\n            dynamic: false,\n            format: 'png'\n      })\n      let bg2 = new Image()\n      bg2.src = "${url}"\n      let av2 = new Image()\n      let av = loadImage((img_user))\n      let text_color = '${text_color}'\n      registerFont('./ggsans-Bold.ttf', {\n            family: 'gg sans'\n      })\n\n      setTimeout(canvas_create, 800)\n\n      function canvas_create() {\n            const canvas = createCanvas(1000, 500)\n            const ctx = canvas.getContext('2d')\n            ctx.drawImage(bg2, 0, 0, canvas.width, canvas.height)\n\n            ctx.beginPath()\n            ctx.arc(500, 210, 131, 0, 2 * Math.PI)\n            ctx.lineWidth = 4\n            ctx.strokeStyle = '#ffffff'\n            ctx.stroke()\n            ctx.closePath()\n\n            ctx.textAlign = "center"\n\n            ctx.fillStyle = text_color\n            ctx.font = "bold 40px gg sans"\n            ctx.fillText(` + "`${user.username}`" + `, 500, 400, 200)\n\n            ctx.fillStyle = text_color\n            ctx.font = "bold 30px gg sans"\n            ctx.fillText(` + "`#${client.users.cache.filter(user => !user.bot).size}`" + `, 500, 450, 200)\n\n            ctx.beginPath()\n            ctx.arc(500, 210, 130, 0, 2 * Math.PI, true)\n            ctx.closePath()\n            ctx.clip()\n\n            ctx.drawImage(av2, 370, 80, 270, 270)\n\n            const at = new Discord.AttachmentBuilder(canvas.toBuffer(), "rank.png")\n\n            Channel.send({\n                  files: [at]\n            })\n      }\n      av2.src = img_user`
+                                        
+                                        setTimeout(() => {
                                             v.push(string)
                                         },1)
                                     }
@@ -804,10 +802,7 @@ embed
 dm
 }
 welcome {
-* maybe canvas welcome image[
-background_image_link
-text_color
-] 
+* maybe canvas welcome image[] bug fixing and edge cases checking
 *embed() bug fixing and edge cases checking
 }
 */
