@@ -113,6 +113,7 @@ key:your-bot-token,
 #### welcome image options
 + **background_image_url:image_url | ./example.png** the background of the welcome image card *if the bot crash when using a url download the image and follow the custom image steps*
 + **text_color:hex_code_color** the color of the text on the image
++ **user_counter_custom_text:string** add text before the user counter
 
 ##### how to use custom images as background
 + save the image as .png/.jpeg format
@@ -129,7 +130,8 @@ message:text message,
 ]
 image [
 background_image_url:image_url | ./example.png,
-text_color:#000000
+text_color:#000000,
+user_counter_custom_text:member,
 ]
 embed (
 title:test,
