@@ -110,12 +110,26 @@ key:your-bot-token,
 + **fields:string | string** add a text field and a subtext field to the embed message (can be used up to 2 times per embed, the text to the left of the "|" is the field and the text to the right is the subfield) **required**
 + **footer:string** added a footer to the embed message (can be used only once per embed) **optional**
 
+#### welcome image options
++ **background_image_url:image_url | ./example.png** the background of the welcome image card *if the bot crash when using a url download the image and follow the custom image steps*
++ **text_color:hex_code_color** the color of the text on the image
+
+##### how to use custom images as background
++ save the image as .png/.jpeg format
++ drag the image and drop it in the product folder
++ instead of url write "./file_name.file_type" *example:./image.png*
++ run the program like normal after making sure both parameters are full (the image url and the text color)
+
 #### how to write a welcome command
 ```
 welcome {
 channel_id:discord_channel_id,
 action [
 message:text message,
+]
+image [
+background_image_url:image_url | ./example.png,
+text_color:#000000
 ]
 embed (
 title:test,
