@@ -7,11 +7,11 @@ fs.writeFileSync("./product/index.js", ``)
 fs.readFile("./product/index.js", "utf8", (err, txt) => {
     function imports() {
         if (!txt) {
-            fs.appendFile('./product/index.js', `const Discord = require('discord.js')\nconst {REST} = require("@discordjs/rest")\nconst {Routes,PermissionFlagsBits} = require('discord-api-types/v9')\nconst path = require('path');\nconst fs = require('fs');\nconst fetch = import('node-fetch');\nconst {fsync,fsyncSync,readFile,readFileSync,writeFile,writeFileSync,readdirSync} = fs\nconst {GuildMember,Presence,Partials,ChatInputCommandInteraction,PermissionsBitField,SlashCommandBuilder,MessageMentions,GatewayIntentBits,Message,Role,CommandInteraction,CategoryChannel,ChannelType,VoiceChannel,VoiceStateManager,EmbedBuilder,RoleManager,Client,BaseInteraction,InteractionType,VoiceState,ClientVoiceManager,BaseGuildVoiceChannel,ChannelManager,GuildChannel,GuildChannelManager,ThreadChannel,ChannelFlags,ClientApplication,ClientUser,Guild,Emoji,GuildEmoji,GuildEmojiManager,User,UserManager,UserContextMenuCommandInteraction,ReactionUserManager,ButtonBuilder,ActionRowBuilder,ApplicationCommand,ApplicationCommandManager,GuildApplicationCommandManager,ApplicationCommandPermissionsManager,AttachmentBuilder,BaseGuildTextChannel,GuildEmojiRoleManager,GuildMemberManager,GuildMemberRoleManager,TextChannel,ActivityType} = Discord\nconst token = require('./token.json')\n`, function (err) {
+            fs.appendFile('./product/index.js', `const Discord = require('discord.js')\nconst {REST} = require("@discordjs/rest")\nconst {Routes,PermissionFlagsBits} = require('discord-api-types/v9')\nconst path = require('path');\nconst fs = require('fs');\nconst fetch = import('node-fetch');\nconst {fsync,fsyncSync,readFile,readFileSync,writeFile,writeFileSync,readdirSync} = fs\nconst {GuildMember,Presence,Partials,ChatInputCommandInteraction,PermissionsBitField,SlashCommandBuilder,MessageMentions,GatewayIntentBits,Message,Role,CommandInteraction,CategoryChannel,ChannelType,VoiceChannel,VoiceStateManager,EmbedBuilder,RoleManager,Client,BaseInteraction,InteractionType,VoiceState,ClientVoiceManager,BaseGuildVoiceChannel,ChannelManager,GuildChannel,GuildChannelManager,ThreadChannel,ChannelFlags,ClientApplication,ClientUser,Guild,Emoji,GuildEmoji,GuildEmojiManager,User,UserManager,UserContextMenuCommandInteraction,ReactionUserManager,ButtonBuilder,ActionRowBuilder,ApplicationCommand,ApplicationCommandManager,GuildApplicationCommandManager,ApplicationCommandPermissionsManager,AttachmentBuilder,BaseGuildTextChannel,GuildEmojiRoleManager,GuildMemberManager,GuildMemberRoleManager,TextChannel,ActivityType} = Discord\nconst token = require('./token.json')\nconst {Image,createCanvas,loadImage,Canvas,registerFont} = require('canvas')\n`, function (err) {
                 if (err) throw err;
             })
             setTimeout(() => {
-                fs.appendFile("./product/index.js", txt + `\nlet client = new Discord.Client({ //create a new client to the bot to use\npartials: [Partials.Channel, Partials.Reaction, Partials.GuildScheduledEvent, Partials.Message, Partials.User, Partials.ThreadMember],\nintents: [ //intents\n      'GuildScheduledEvents',\n      'DirectMessages',\n      "GuildMessageTyping", //allow bot to type\n      "Guilds", //allow bot to use guilds\n      "GuildMessages", //allow bot to interact with messages\n      "GuildBans", //allow bot to ban, kick and timeout\n      "GuildInvites", //allow bot to create invites\n      "GuildMessageReactions", //allow bot to react to messages\n      "GuildMembers", //allow bot to interact to members\n      "GuildVoiceStates", //allow bot to use voice channel\n      "GuildEmojisAndStickers", //allow bot to use emojis and sticker\n      "GuildWebhooks", //allow bot to use webhook\n      "GuildIntegrations", //allow bot to use integration\n      "MessageContent",\n      "GuildPresences"\n],})\n`, function (err) {
+                fs.appendFile("./product/index.js", txt + `\nlet client = new Discord.Client({ //create a new client to the bot to use\npartials: [Partials.Channel, Partials.Reaction, Partials.GuildScheduledEvent, Partials.Message, Partials.User, Partials.ThreadMember],\nintents: [ //intents\n      'GuildScheduledEvents',\n      'DirectMessages',\n      "GuildMessageTyping", //allow bot to type\n      "Guilds", //allow bot to use guilds\n      "GuildMessages", //allow bot to interact with messages\n      "GuildBans", //allow bot to ban, kick and timeout\n      "GuildInvites", //allow bot to create invites\n      "GuildMessageReactions", //allow bot to react to messages\n      "GuildMembers", //allow bot to interact to members\n      "GuildVoiceStates", //allow bot to use voice channel\n      "GuildEmojisAndStickers", //allow bot to use emojis and sticker\n      "GuildWebhooks", //allow bot to use webhook\n      "GuildIntegrations", //allow bot to use integration\n      "MessageContent",\n      "GuildPresences"\n],})\nclient.setMaxListeners(Infinity)\n`, function (err) {
                     if (err) throw err;
                 })
             }, 1)
@@ -270,17 +270,32 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                 for (var i = 0; i < l; i++) {
                                     let unit = program.split(`]`).slice(i, i + 1).toString()
                                     let type = unit.split(` [`).slice(0, 1).toString()
+                                    type = (type.includes(`)\n`)) ? type.split(`)\n`).slice(1).toString() : type
                                     unit = unit.split(type).slice(1, 2).toString()
-                                    let message = unit.split(`message:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
-                                    let dm = unit.split(`dm:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
-                                    let add_role = unit.split(`add_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
-                                    let remove_role = unit.split(`remove_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
-                                    let action = (unit.includes(`dm`)) ? "user.send({content:'" + `${User(dm)}` + "'}).catch(console.error())" : ``
-                                    let action2 = (unit.includes(`add_role`)) ? `member.roles.add('${add_role}').catch(console.error())` : action
-                                    let action3 = (unit.includes(`remove_role`)) ? `member.roles.add('${remove_role}').catch(console.error())` : action2
-                                    let action4 = (unit.includes(`message`)) ? `Channel.send('${User(message)}')` : action3
-                                    v.push(action4)
-                                    console.log(`------------------------->` + action4)
+                                    console.log([type])
+                                    if (type.toLowerCase().replace(/\n/g,``) == `action`) {
+                                        let message = unit.split(`message:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                        let dm = unit.split(`dm:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                        let add_role = unit.split(`add_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                        let remove_role = unit.split(`remove_role:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                        let action = (unit.includes(`dm`)) ? "user.send({content:'" + `${User(dm)}` + "'}).catch(console.error())" : ``
+                                        let action2 = (unit.includes(`add_role`)) ? `member.roles.add('${add_role}').catch(console.error())` : action
+                                        let action3 = (unit.includes(`remove_role`)) ? `member.roles.add('${remove_role}').catch(console.error())` : action2
+                                        let action4 = (unit.includes(`message`)) ? `Channel.send('${User(message)}')` : action3
+                                        v.push(action4)
+                                        console.log(`------------------------->` + action4)
+                                    }
+                                    if (type.toLowerCase().replace(/\n/g, ``) == `image`) {
+                                        let url = unit.split(`background_image_url:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+                                        let text_color = unit.split(`text_color:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
+
+                                        console.log([unit])
+
+                                        let string = `let img_user = user.displayAvatarURL({\n            extension: 'png',\n            dynamic: false,\n            format: 'png'\n      })\n      let bg2 = new Image()\n      bg2.src = "${url}"\n      let av2 = new Image()\n      let av = loadImage((img_user))\n      let text_color = '${text_color}'\n      registerFont('./ggsans-Bold.ttf', {\n            family: 'gg sans'\n      })\n\n      setTimeout(canvas_create, 800)\n\n      function canvas_create() {\n            const canvas = createCanvas(1000, 500)\n            const ctx = canvas.getContext('2d')\n            ctx.drawImage(bg2, 0, 0, canvas.width, canvas.height)\n\n            ctx.beginPath()\n            ctx.arc(500, 210, 131, 0, 2 * Math.PI)\n            ctx.lineWidth = 4\n            ctx.strokeStyle = '#ffffff'\n            ctx.stroke()\n            ctx.closePath()\n\n            ctx.textAlign = "center"\n\n            ctx.fillStyle = text_color\n            ctx.font = "bold 40px gg sans"\n            ctx.fillText(` + "`${user.username}`" + `, 500, 400, 200)\n\n            ctx.beginPath()\n            ctx.arc(500, 210, 130, 0, 2 * Math.PI, true)\n            ctx.closePath()\n            ctx.clip()\n\n            ctx.drawImage(av2, 370, 80, 270, 270)\n\n            const at = new Discord.AttachmentBuilder(canvas.toBuffer(), "rank.png")\n\n            Channel.send({\n                  files: [at]\n            })\n      }\n      av2.src = img_user`
+                                        setTimeout(() =>{
+                                            v.push(string)
+                                        },1)
+                                    }
                                 }
                             }
 
@@ -288,6 +303,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                 const l2 = program.length - program.replace(/[(]/g, ``).length
                                 for (let i = 0; i < l2; i++) {
                                     let unit = program.toString().split(`)`).slice(i, i + 1).toString()
+                                    console.log([unit],`**********`)
                                     let type = unit.split(` (`).slice(0, 1).toString()
                                     unit = unit.split(type).slice(1, 2).toString()
                                     let title = unit.split(`title:`).slice(1, 2).toString().split(`,`).slice(0, 1).toString().replace(/\n/g, ``)
@@ -316,7 +332,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                 }
                             }
                             let sub1 = (program.includes('[')) ? actions() : ``
-                            let embed = (program.includes('(')) ? Embed() : ``
+                            let embed = (program.includes('embed (')) ? Embed() : ``
                             setTimeout(() => {
                                 fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                     let act = v.join(`}{`).toString().replace(/}{/g, `\n      `)
@@ -448,7 +464,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 let value = v.toString().split(`\n`).slice(Number(string), Number(string) + 1).join(``).toString().replace(/,/g, ``).replace(/let /g, ``)
                                                 const v_place = value.length - value.replace(/=/g, "").length
                                                 value = value.split(`=`).slice(v_place - 1, v_place).toString().replace(/ /g, ``)
-                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  interaction.reply(`" + `${value_1}` + "` +` " + `${value_2}` + "`)\n            }\n      }\n})"
+                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  interaction.reply(`" + `${value_1}` + "` +` " + `${value_2}` + "`).catch(console.error)\n            }\n      }\n})"
                                                 return reply
                                             }
 
@@ -479,7 +495,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 value_1 = (value_2 == value_1 || value_1 == null || !value_1) ? `` : "${" + value_1 + "}"
                                                 const v_place = value.length - value.replace(/=/g, "").length
                                                 value = value.split(`=`).slice(v_place - 1, v_place).toString().replace(/ /g, ``)
-                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  interaction.channel.send(`" + `${value_1}` + "` +` " + `${value_2}` + "`)\n            }\n      }\n})"
+                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  interaction.channel.send(`" + `${value_1}` + "` +` " + `${value_2}` + "`).catch(console.error)\n            }\n      }\n})"
                                                 return reply
                                             }
 
@@ -512,7 +528,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 value_2 = (value_2 == value_1 || value_2 == null || !value_2) ? `` : "${" + value_2 + "}"
                                                 value_1 = (value_2 == value_1 || value_1 == null || !value_1) ? `` : "${" + value_1 + "}"
                                                 let out = (!value_1.includes(`member_`)) ? value_1 : value_2
-                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".roles.add(`" + `${out}` + "`)\n            }\n      }\n})"
+                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".roles.add(`" + `${out}` + "`).catch(console.error)\n            }\n      }\n})"
                                                 return reply
                                             }
 
@@ -545,7 +561,7 @@ fs.readFile("./product/index.js", "utf8", (err, txt) => {
                                                 value_1 = (value_2 == value_1 || value_1 == null || !value_1) ? `` : "${" + value_1 + "}"
                                                 let out = (!value_1.includes(`member_`)) ? value_1 : value_2
                                                 const v_place = value.length - value.replace(/=/g, "").length
-                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".roles.remove(`" + `${out}` + "`)\n            }\n      }\n})"
+                                                const reply = "client.on('interactionCreate', (interaction) => {\n      if (interaction.isChatInputCommand()) {      \n            if (interaction.commandName == '" + `${command_name}` + "') {" + `\n${v.join("")}` + "                  " + `${user}` + ".roles.remove(`" + `${out}` + "`).catch(console.error)\n            }\n      }\n})"
                                                 return reply
                                             }
 
@@ -790,16 +806,8 @@ dm
 welcome {
 * maybe canvas welcome image[
 background_image_link
+text_color
 ] 
-embed(
-title
-author
-description
-icon_image_link
-thumbnail_image_link
-fields 1 | 2
-color
-footers
-)
+*embed() bug fixing and edge cases checking
 }
 */
