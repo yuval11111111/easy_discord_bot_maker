@@ -1,4 +1,4 @@
-4# Installation
+# Installation
 + Download the files to a folder on your pc
 + open the powershell of the folder and type:
 ```bash
